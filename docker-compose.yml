@@ -23,6 +23,10 @@ services:
 
   selenium:
     image: selenium/standalone-chrome-debug:3.11.0-californium
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     environment:
       - VNC_NO_PASSWORD=1
       - SCREEN_WIDTH=1800
