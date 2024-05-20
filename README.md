@@ -29,3 +29,4 @@ The credentials for the registered account can be stored in a YAML file with `CR
 env variable set to the absolute path of the file.
 It is also allowed to set the `NINEANIME_EMAIL` and `NINEANIME_PASS` env variables instead,
 however, be aware that when a YAML file is given, it will overwrite the credentials.
+=======
