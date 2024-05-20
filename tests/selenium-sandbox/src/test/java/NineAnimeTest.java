@@ -20,6 +20,7 @@ public class NineAnimeTest {
     public void setup() throws MalformedURLException {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
+
         this.driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
         this.driver.manage().window().maximize();
         this.email = System.getenv("NINEANIME_EMAIL");
@@ -71,6 +72,45 @@ public class NineAnimeTest {
         Assert.assertTrue(this.driver.getTitle().contains("9Anime"));
         Assert.assertTrue(mainPage.getBodyText().contains("Recently Updated"));
         Assert.assertTrue(mainPage.getFooterText().contains("All Rights Reserved"));
+    }
+
+    @Test
+    public void staticPageLoad() {
+        Class<? extends BasePage>[] pages = new Class[] {
+            MainPage.class,
+            UpcomingPage.class,
+            AppDownloadPage.class
+        };
+
+        By[] selectors = {
+            By.id("main-content"),
+            By.xpath("//div[@class='prebreadcrumb']"),
+            By.xpath("//a[@href='https://app.sremrofsnart.com/anilab-latest.apk']")
+        };
+
+        String[] contents = {
+            "Recently Updated",
+            "Top Upcoming",
+            "9anime Android Apk"
+        };
+
+        for (int i = 0; i < pages.length; ++i) {
+            BasePage page = null;
+
+            try {
+                page = pages[i].getDeclaredConstructor(WebDriver.class).newInstance(this.driver);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            By selector = selectors[i];
+            String content = contents[i];
+
+            if (page != null) {
+                page.waitAndReturnElement(selector);
+                Assert.assertTrue(page.getBodyText().contains(content));
+            }
+        }
     }
 
     @Test

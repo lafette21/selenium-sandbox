@@ -17,7 +17,7 @@ gradle test
 
 ## Credentials file
 
-```
+```yaml
 email: EMAIL
 pass: PASS
 ```
